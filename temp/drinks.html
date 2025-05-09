@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drinks Menu - Bracu Cafeteria</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+        }
+        .cart-icon:hover {
+            background: #444;
+        }
+        #cart-count {
+            background: #4CAF50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.9em;
+        }
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .menu-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .menu-item h2 {
+            margin: 0 0 0.5rem 0;
+            color: #333;
+        }
+        .menu-item p {
+            color: #666;
+            margin: 0 0 1rem 0;
+        }
+        .price {
+            font-weight: bold;
+            color: #4CAF50;
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .item-quantity button {
+            background: #f0f0f0;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .item-quantity button:hover {
+            background: #e0e0e0;
+        }
+        .add-to-cart {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+        }
+        .add-to-cart:hover {
+            background: #45a049;
+        }
+        .back-button {
+            display: inline-block;
+            margin: 1rem;
+            padding: 0.5rem 1rem;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .back-button:hover {
+            background: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/menu">Menu</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+    </div>
+
+    <a href="/cart" class="cart-icon">
+        🛒 Cart <span id="cart-count">0</span>
+    </a>
+
+    <header>
+        <h1>Drinks Menu</h1>
+        <a href="/menu" class="back-button">Back to Menu</a>
+    </header>
+
+    <section class="menu-items">
+        <div class="menu-item">
+            <h2>Cappuccino</h2>
+            <p>Espresso with steamed milk and foam</p>
+            <p class="price">$3.99</p>
+            <div class="item-quantity">
+                <button onclick="updateItemQuantity('Cappuccino', -1)">-</button>
+                <span id="quantity-Cappuccino">1</span>
+                <button onclick="updateItemQuantity('Cappuccino', 1)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart('Cappuccino', 3.99, getItemQuantity('Cappuccino'))">Add to Cart</button>
+        </div>
+
+        <div class="menu-item">
+            <h2>Latte</h2>
+            <p>Espresso with steamed milk</p>
+            <p class="price">$4.49</p>
+            <div class="item-quantity">
+                <button onclick="updateItemQuantity('Latte', -1)">-</button>
+                <span id="quantity-Latte">1</span>
+                <button onclick="updateItemQuantity('Latte', 1)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart('Latte', 4.49, getItemQuantity('Latte'))">Add to Cart</button>
+        </div>
+
+        <div class="menu-item">
+            <h2>Mocha</h2>
+            <p>Espresso with chocolate and steamed milk</p>
+            <p class="price">$4.99</p>
+            <div class="item-quantity">
+                <button onclick="updateItemQuantity('Mocha', -1)">-</button>
+                <span id="quantity-Mocha">1</span>
+                <button onclick="updateItemQuantity('Mocha', 1)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart('Mocha', 4.99, getItemQuantity('Mocha'))">Add to Cart</button>
+        </div>
+
+        <div class="menu-item">
+            <h2>Iced Tea</h2>
+            <p>Fresh brewed black tea with lemon</p>
+            <p class="price">$2.99</p>
+            <div class="item-quantity">
+                <button onclick="updateItemQuantity('Iced Tea', -1)">-</button>
+                <span id="quantity-Iced Tea">1</span>
+                <button onclick="updateItemQuantity('Iced Tea', 1)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart('Iced Tea', 2.99, getItemQuantity('Iced Tea'))">Add to Cart</button>
+        </div>
+
+        <div class="menu-item">
+            <h2>Fresh Juice</h2>
+            <p>Seasonal fruit juice</p>
+            <p class="price">$3.49</p>
+            <div class="item-quantity">
+                <button onclick="updateItemQuantity('Fresh Juice', -1)">-</button>
+                <span id="quantity-Fresh Juice">1</span>
+                <button onclick="updateItemQuantity('Fresh Juice', 1)">+</button>
+            </div>
+            <button class="add-to-cart" onclick="addToCart('Fresh Juice', 3.49, getItemQuantity('Fresh Juice'))">Add to Cart</button>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+    <script>
+        function updateItemQuantity(itemName, change) {
+            const quantityElement = document.getElementById(`quantity-${itemName}`);
+            const currentQuantity = parseInt(quantityElement.textContent);
+            const newQuantity = Math.max(1, currentQuantity + change);
+            quantityElement.textContent = newQuantity;
+        }
+
+        function getItemQuantity(itemName) {
+            return parseInt(document.getElementById(`quantity-${itemName}`).textContent);
+        }
+    </script>
+</body>
+</html> 
