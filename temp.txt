@@ -1,0 +1,21 @@
+db.create_all()
+saves database model to the bracu_cafe.db 
+
+
+>>recreate all the table form models.py file
+flask shell
+from app import db
+db.drop_all()
+db.create_all()
+
+
+>>creating admin record using cmd
+flask shell
+from app import db
+from app.models import Admin  
+admin = Admin(username='admin')
+admin.set_password('admin123')
+
+db.session.add(admin)
+db.session.commit()
+Admin.query.all()
